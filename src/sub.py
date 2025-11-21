@@ -1,4 +1,5 @@
-import os, paho.mqtt.client as mqtt
+import os
+import paho.mqtt.client as mqtt
 from dotenv import load_dotenv
 
 # Configuration
@@ -6,6 +7,7 @@ load_dotenv()
 broker_address = os.environ.get('MQTT_BROKER')
 port = int(os.environ.get('MQTT_PORT'))
 topic = "/test/topic/zidane"
+
 
 def on_connect(client, userdata, flags, rc, properties=None):
     if rc == 0:
@@ -17,6 +19,7 @@ def on_connect(client, userdata, flags, rc, properties=None):
 
 def on_message(client, userdata, msg):
     print(f"Received message from topic '{msg.topic}': {msg.payload.decode()}")
+
 
 client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
 client.on_connect = on_connect
