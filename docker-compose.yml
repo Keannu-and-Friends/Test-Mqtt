@@ -1,0 +1,36 @@
+services:
+  pub:
+    env_file: .env
+    image: test_mqtt:pub_latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      mqtt:
+        condition: service_healthy
+        restart: true
+    command: ["python", "src/pub.py"]
+
+  sub:
+    env_file: .env
+    image: test_mqtt:sub_latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      mqtt:
+        condition: service_healthy
+        restart: true
+    command: ["python", "src/sub.py"]
+
+  mqtt:
+    image: emqx/emqx-enterprise:6.0.1
+    container_name: emqx-enterprise
+    ports:
+      - "18083:18083" # Dashboard port
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "/opt/emqx/bin/emqx", "ctl", "status"]
+      interval: 5s
+      timeout: 25s
+      retries: 5

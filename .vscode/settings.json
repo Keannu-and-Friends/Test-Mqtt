@@ -1,0 +1,8 @@
+{
+    "yaml.schemas": {
+        "file:///c%3A/Users/keannu125/.vscode/extensions/continue.continue-1.2.10-win32-x64/config-yaml-schema.json": [
+            ".continue/**/*.yaml"
+        ],
+        "https://raw.githubusercontent.com/woodpecker-ci/woodpecker/main/pipeline/frontend/yaml/linter/schema/schema.json": "file:///d%3A/Projects/Test-Mqtt/.woodpecker/.build.yml"
+    }
+}
