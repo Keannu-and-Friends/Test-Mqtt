@@ -5,11 +5,14 @@ steps:
   - name: test
     image: astral/uv:python3.13-trixie-slim
     environment:
-      BACKEND_GENERATE_TEST_CONFIG:
-        from_secret: BACKEND_GENERATE_TEST_CONFIG
+      MQTT_BROKER:
+        from_secret: MQTT_BROKER
+      MQTT_PORT:
+        from_secret: MQTT_PORT
     commands:
       - uv sync --frozen --cache-dir /.cache/uv --link-mode=copy
       - export PATH=".venv/bin:$PATH"
+      - sleep 10s
       - pytest --cov
     volumes:
       - /tmp/.uv:/.cache/uv # Optimization: Shared UV cache on local build server
@@ -31,3 +34,7 @@ when:
       - push
       - manual
       - pull_request
+
+services:
+  mqtt:
+    image: emqx/emqx-enterprise:6.0.1
